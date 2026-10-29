@@ -238,7 +238,7 @@
 <div class="container">
   <header>
     <h1>👹 自律升級哥布林 (Lv.1 - 999)</h1>
-    <p style="color: var(--text-muted); font-size: 0.9rem;">十進位幾何級數經驗 + 連續放鬆 2 天即判定失敗！</p>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">十進位幾何級數經驗 + 順暢升級機制！</p>
   </header>
 
   <!-- Goblin Main Status -->
@@ -253,7 +253,7 @@
         <div class="exp-bar" id="expBar"></div>
       </div>
       <div style="font-size: 0.85rem; color: var(--text-muted);">
-        EXP: <span id="currentExp">0</span> / <span id="maxExp">1</span>
+        EXP: <span id="currentExp">0</span> / <span id="maxExp">10</span>
       </div>
 
       <div class="stats-grid">
@@ -268,7 +268,7 @@
   <!-- No-PMO Section -->
   <div class="card nopmo-card">
     <h3 style="color: var(--accent-purple); margin-bottom: 5px;">🔥 戒色修煉 (等比加倍獎勵)</h3>
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">連續放鬆 2 日當失敗；達 10 日解鎖「SSIS-531的誘惑」！</p>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">連續日數越多，獎勵以 1, 2, 4, 8, 16... 幾何級數上升！</p>
     <div class="nopmo-flex">
       <div>
         <div class="streak-count"><span id="nopmoDays">0</span> <small style="font-size: 1rem; color: #fff;">日</small></div>
@@ -321,31 +321,31 @@
   };
 
   const allTasks = [
-    { id: 1, unlockLv: 1, text: "早起唔賴床 (08:00 前)", exp: 1 },
-    { id: 2, unlockLv: 2, text: "飲足 2000ml 水", exp: 5 },
+    { id: 1, unlockLv: 1, text: "早起唔賴床 (08:00 前)", exp: 5 },
+    { id: 2, unlockLv: 2, text: "飲足 2000ml 水", exp: 10 },
     { id: 3, unlockLv: 3, text: "做運動 20 分鐘", exp: 20 },
     { id: 4, unlockLv: 4, text: "睇書 / 學習 15 分鐘", exp: 50 },
     { id: 5, unlockLv: 5, text: "清理房間 / 整理桌面", exp: 100 },
-    { id: 6, unlockLv: 6, text: "食一餐健康清淡餐", exp: 250 },
-    { id: 7, unlockLv: 7, text: "戒糖 / 唔飲手搖飲品", exp: 500 },
-    { id: 8, unlockLv: 8, text: "實施 15 分鐘冥想拉筋", exp: 1000 },
-    { id: 9, unlockLv: 9, text: "檢視與記錄今日花費", exp: 2500 },
-    { id: 10, unlockLv: 10, text: "今晚 11:30 前熄燈睡覺", exp: 5000 },
-    { id: 11, unlockLv: 20, text: "連續做 50 次俯臥撐 / 仰臥起坐", exp: 8000 },
-    { id: 12, unlockLv: 30, text: "學習外語 / 新技能 30 分鐘", exp: 15000 },
-    { id: 13, unlockLv: 40, text: "晨跑 / 散步 5000 步", exp: 30000 },
-    { id: 14, unlockLv: 50, text: "完全關掉社群媒體 2 小時", exp: 60000 },
-    { id: 15, unlockLv: 60, text: "閱讀深度書籍 45 分鐘", exp: 100000 },
-    { id: 16, unlockLv: 70, text: "完成全套核心肌群訓練", exp: 200000 },
-    { id: 17, unlockLv: 80, text: "撰寫今日自律檢討日誌", exp: 400000 },
-    { id: 18, unlockLv: 90, text: "連續冷水澡沖涼洗滌意志", exp: 800000 },
-    { id: 19, unlockLv: 100, text: "挑戰一日零娛樂全集中工作", exp: 1500000 },
-    { id: 20, unlockLv: 200, text: "挑戰極限：10000 步 + 1 小時健身", exp: 3000000 },
-    { id: 21, unlockLv: 250, text: "極致專注：連續 4 小時無干擾工作", exp: 6000000 },
-    { id: 22, unlockLv: 300, text: "終極自律：連續 7 日完美執行所有任務", exp: 12000000 },
-    { id: 23, unlockLv: 350, text: "體能爆發：完成 10 公里長跑", exp: 25000000 },
-    { id: 24, unlockLv: 400, text: "大師心境：進行 1 小時深度冥想", exp: 50000000 },
-    { id: 25, unlockLv: 500, text: "至尊自律：一日閱讀完一整本書", exp: 100000000 }
+    { id: 6, unlockLv: 6, text: "食一餐健康清淡餐", exp: 200 },
+    { id: 7, unlockLv: 7, text: "戒糖 / 唔飲手搖飲品", exp: 400 },
+    { id: 8, unlockLv: 8, text: "實施 15 分鐘冥想拉筋", exp: 800 },
+    { id: 9, unlockLv: 9, text: "檢視與記錄今日花費", exp: 1500 },
+    { id: 10, unlockLv: 10, text: "今晚 11:30 前熄燈睡覺", exp: 3000 },
+    { id: 11, unlockLv: 20, text: "連續做 50 次俯臥撐 / 仰臥起坐", exp: 5000 },
+    { id: 12, unlockLv: 30, text: "學習外語 / 新技能 30 分鐘", exp: 10000 },
+    { id: 13, unlockLv: 40, text: "晨跑 / 散步 5000 步", exp: 20000 },
+    { id: 14, unlockLv: 50, text: "完全關掉社群媒體 2 小時", exp: 40000 },
+    { id: 15, unlockLv: 60, text: "閱讀深度書籍 45 分鐘", exp: 80000 },
+    { id: 16, unlockLv: 70, text: "完成全套核心肌群訓練", exp: 150000 },
+    { id: 17, unlockLv: 80, text: "撰寫今日自律檢討日誌", exp: 300000 },
+    { id: 18, unlockLv: 90, text: "連續冷水澡沖涼洗滌意志", exp: 600000 },
+    { id: 19, unlockLv: 100, text: "挑戰一日零娛樂全集中工作", exp: 1000000 },
+    { id: 20, unlockLv: 200, text: "挑戰極限：10000 步 + 1 小時健身", exp: 2000000 },
+    { id: 21, unlockLv: 250, text: "極致專注：連續 4 小時無干擾工作", exp: 4000000 },
+    { id: 22, unlockLv: 300, text: "終極自律：連續 7 日完美執行所有任務", exp: 8000000 },
+    { id: 23, unlockLv: 350, text: "體能爆發：完成 10 公里長跑", exp: 15000000 },
+    { id: 24, unlockLv: 400, text: "大師心境：進行 1 小時深度冥想", exp: 30000000 },
+    { id: 25, unlockLv: 500, text: "至尊自律：一日閱讀完一整本書", exp: 60000000 }
   ];
 
   const evolutions = [
@@ -360,15 +360,20 @@
     { maxLv: 999, title: "宇宙無敵 終極自律神", avatar: "🌌" }
   ];
 
+  // 安全且平滑的十進位經驗曲線 (Lv.1 = 10, Lv.2 = 100, Lv.3 = 1000...)
   function getMaxExp(level) {
-    if (level >= 999) return 1e30;
-    return Math.pow(10, level - 1);
+    if (level >= 999) return 1e15;
+    return Math.pow(10, level); 
   }
 
   function loadGame() {
     const saved = localStorage.getItem('goblin_save');
     if (saved) {
-      state = Object.assign(state, JSON.parse(saved));
+      try {
+        state = Object.assign(state, JSON.parse(saved));
+      } catch(e) {
+        console.log("Load error, resetting save");
+      }
     }
     updateUI();
   }
@@ -404,4 +409,27 @@
     listEl.innerHTML = '';
 
     allTasks.forEach(task => {
+      const isUnlocked = state.lv >= task.unlockLv;
+      const isDone = state.completedTasksToday.includes(task.id);
+
+      const li = document.createElement('li');
+      li.className = `task-item ${!isUnlocked ? 'locked' : ''}`;
+
+      if (isUnlocked) {
+        li.innerHTML = `
+          <span style="${isDone ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">
+            ${task.text} <small style="color: var(--accent-gold);">(+${task.exp.toLocaleString()} EXP)</small>
+          </span>
+          <div class="task-actions">
+            ${!isDone 
+              ? `<button class="btn btn-green" onclick="completeTask(${task.id}, ${task.exp})">搞掂</button>
+                 <button class="btn btn-red" onclick="failTask(${task.id}, ${task.exp})">唔做</button>`
+              : `<span style="color: var(--accent-green); font-size: 0.9rem;">✅ 已完成</span>`
+            }
+          </div>
+        `;
+      } else {
+        li.innerHTML = `
+          <span style="color: var(--text-muted);">🔒 任務未解鎖 (${task.text})</span>
+          <span style="font-size: 0.8rem; color: var(--accent-purple
       const isUnlocked
