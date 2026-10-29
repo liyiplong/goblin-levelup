@@ -12,6 +12,7 @@
       --accent-red: #e74c3c;
       --accent-gold: #f1c40f;
       --accent-purple: #9b59b6;
+      --accent-blue: #3498db;
       --text-light: #ecf0f1;
       --text-muted: #8e9aaf;
     }
@@ -168,28 +169,16 @@
     .btn-green:hover { background: #27ae60; }
     .btn-red { background: var(--accent-red); color: #fff; }
     .btn-red:hover { background: #c0392b; }
+    .btn-blue { background: var(--accent-blue); color: #fff; }
+    .btn-blue:hover { background: #2980b9; }
 
     /* Task List */
-    .task-input-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #3a3f58;
-      background: #0f111a;
-      color: var(--text-light);
-    }
-
     .task-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      margin-top: 10px;
     }
 
     .task-item {
@@ -199,6 +188,12 @@
       background: #25293c;
       padding: 12px 15px;
       border-radius: 8px;
+    }
+
+    .task-item.locked {
+      opacity: 0.5;
+      background: #181b28;
+      border: 1px dashed #3a3f58;
     }
 
     .task-actions {
@@ -234,6 +229,7 @@
     @media (max-width: 600px) {
       .goblin-status { flex-direction: column; text-align: center; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .nopmo-flex { flex-direction: column; gap: 15px; align-items: flex-start; }
     }
   </style>
 </head>
@@ -242,7 +238,7 @@
 <div class="container">
   <header>
     <h1>👹 自律升級哥布林 (Lv.1 - 999)</h1>
-    <p style="color: var(--text-muted); font-size: 0.9rem;">未完成任務會倒扣 EXP，請保持自律避免降級！</p>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">指數級經驗加倍 + 科學健康放鬆機制！</p>
   </header>
 
   <!-- Goblin Main Status -->
@@ -250,7 +246,7 @@
     <div class="goblin-avatar" id="goblinAvatar">👺</div>
     <div class="status-info">
       <div>
-        <span class="level-badge" id="goblinRank">泥巴哥布林</span>
+        <span class="level-badge" id="goblinRank">Hea底廢柴哥布林</span>
         <strong style="font-size: 1.2rem;">Lv. <span id="goblinLv">1</span> / 999</strong>
       </div>
       <div class="exp-bar-container">
@@ -271,26 +267,25 @@
 
   <!-- No-PMO Section -->
   <div class="card nopmo-card">
-    <h3 style="color: var(--accent-purple); margin-bottom: 10px;">🔥 戒色修煉 (No-PMO)</h3>
+    <h3 style="color: var(--accent-purple); margin-bottom: 5px;">🔥 戒色修煉 (等比加倍獎勵)</h3>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">連續日數越多，獎勵以 1, 2, 4, 8, 16... 幾何級數上升！</p>
     <div class="nopmo-flex">
       <div>
-        <div class="streak-count"><span id="nopmoDays">0</span> <small style="font-size: 1rem; color: #fff;">天</small></div>
-        <p style="font-size: 0.85rem; color: var(--text-muted);" id="nopmoTitle">稱號：純潔幼年體</p>
+        <div class="streak-count"><span id="nopmoDays">0</span> <small style="font-size: 1rem; color: #fff;">日</small></div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">當前加倍倍率：<span id="nopmoMultiplier" style="color: var(--accent-gold); font-weight: bold;">1x</span></p>
       </div>
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-green" onclick="checkInNoPMO()">每日簽到 (+WIL/VIT)</button>
-        <button class="btn btn-red" onclick="relapseNoPMO()">破戒重置 (慘遭反噬)</button>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button class="btn btn-green" onclick="checkInNoPMO()">每日簽到 (領取加倍 EXP)</button>
+        <button class="btn btn-blue" onclick="medicalRelax()">醫學健康放鬆 (溫和調節)</button>
+        <button class="btn btn-red" onclick="relapseNoPMO()">破戒重置 (心魔反噬)</button>
       </div>
     </div>
   </div>
 
   <!-- Task Section -->
   <div class="card">
-    <h3 style="margin-bottom: 15px;">📋 每日自律任務</h3>
-    <div class="task-input-group">
-      <input type="text" id="newTaskInput" placeholder="輸入任務名稱 (例如: 跑步30分鐘、閱讀10頁)...">
-      <button class="btn btn-green" onclick="addTask()">新增任務</button>
-    </div>
+    <h3 style="margin-bottom: 5px;">📋 每日自律任務</h3>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">提升等級可以解鎖更多自律任務！</p>
     <ul class="task-list" id="taskList"></ul>
   </div>
 
@@ -298,7 +293,7 @@
   <div class="card boss-card">
     <h3 style="color: var(--accent-red);">⚔️ 心魔 Boss 地下城</h3>
     <div class="boss-avatar">👹</div>
-    <h4>拖延惡魔 - 普洛克拉</h4>
+    <h4>拖延大魔王 - 蛇王森</h4>
     <div class="hp-bar-container">
       <div class="hp-bar" id="bossHpBar"></div>
     </div>
@@ -322,32 +317,57 @@
     lastNopmoCheck: null,
     bossHp: 200,
     bossMaxHp: 200,
-    tasks: [
-      { id: 1, text: "早起不賴床", done: false },
-      { id: 2, text: "運動 20 分鐘", done: false },
-      { id: 3, text: "閱讀 15 分鐘", done: false }
-    ]
+    completedTasksToday: []
   };
 
-  // Evolution Titles & Avatars
+  const allTasks = [
+    { id: 1, unlockLv: 1, text: "早起唔賴床 (08:00 前)", exp: 30 },
+    { id: 2, unlockLv: 2, text: "飲足 2000ml 水", exp: 35 },
+    { id: 3, unlockLv: 3, text: "做運動 20 分鐘", exp: 40 },
+    { id: 4, unlockLv: 4, text: "睇書 / 學習 15 分鐘", exp: 45 },
+    { id: 5, unlockLv: 5, text: "清理房間 / 整理桌面", exp: 50 },
+    { id: 6, unlockLv: 6, text: "食一餐健康清淡餐", exp: 55 },
+    { id: 7, unlockLv: 7, text: "戒糖 / 唔飲手搖飲品", exp: 60 },
+    { id: 8, unlockLv: 8, text: "實施 15 分鐘冥想拉筋", exp: 65 },
+    { id: 9, unlockLv: 9, text: "檢視與記錄今日花費", exp: 70 },
+    { id: 10, unlockLv: 10, text: "今晚 11:30 前熄燈睡覺", exp: 80 },
+    { id: 11, unlockLv: 20, text: "連續做 50 次俯臥撐 / 仰臥起坐", exp: 120 },
+    { id: 12, unlockLv: 30, text: "學習外語 / 新技能 30 分鐘", exp: 160 },
+    { id: 13, unlockLv: 40, text: "晨跑 / 散步 5000 步", exp: 200 },
+    { id: 14, unlockLv: 50, text: "完全關掉社群媒體 2 小時", exp: 250 },
+    { id: 15, unlockLv: 60, text: "閱讀深度書籍 45 分鐘", exp: 320 },
+    { id: 16, unlockLv: 70, text: "完成全套核心肌群訓練", exp: 400 },
+    { id: 17, unlockLv: 80, text: "撰寫今日自律檢討日誌", exp: 500 },
+    { id: 18, unlockLv: 90, text: "連續冷水澡沖涼洗滌意志", exp: 620 },
+    { id: 19, unlockLv: 100, text: "挑戰一日零娛樂全集中工作", exp: 800 },
+    { id: 20, unlockLv: 200, text: "挑戰極限：10000 步 + 1 小時健身", exp: 1500 },
+    { id: 21, unlockLv: 250, text: "極致專注：連續 4 小時無干擾工作", exp: 2200 },
+    { id: 22, unlockLv: 300, text: "終極自律：連續 7 日完美執行所有任務", exp: 3500 },
+    { id: 23, unlockLv: 350, text: "體能爆發：完成 10 公里長跑", exp: 5000 },
+    { id: 24, unlockLv: 400, text: "大師心境：進行 1 小時深度冥想", exp: 7500 },
+    { id: 25, unlockLv: 500, text: "至尊自律：一日閱讀完一整本書", exp: 12000 }
+  ];
+
   const evolutions = [
-    { maxLv: 10, title: "泥巴哥布林", avatar: "👺" },
-    { maxLv: 30, title: "自律戰士哥布林", avatar: "👹" },
-    { maxLv: 70, title: "鋼鐵意志哥布林", avatar: "🤖" },
-    { maxLv: 150, title: "大將軍哥布林", avatar: "⚔️" },
-    { maxLv: 300, title: "哥布林王者", avatar: "👑" },
-    { maxLv: 600, title: "極致帝王哥布林", avatar: "🔥" },
-    { maxLv: 999, title: "虛空自律至高神", avatar: "🌌" }
+    { maxLv: 10, title: "Hea底廢柴哥布林", avatar: "👺" },
+    { maxLv: 30, title: "唔浦頭 識郁哥布林", avatar: "🚶" },
+    { maxLv: 70, title: "捱得夜 頂癮哥布林", avatar: "🏃" },
+    { maxLv: 150, title: "堅料 鐵人哥布林", avatar: "🦾" },
+    { maxLv: 300, title: "chur 爆全場 哥布林大隻佬", avatar: "💪" },
+    { maxLv: 500, title: "堅·自律 陀地大佬", avatar: "🕶️" },
+    { maxLv: 750, title: "逢兇化吉 燈神哥布林", avatar: "⚡" },
+    { maxLv: 998, title: "橫掃千軍 自律界話事人", avatar: "👑" },
+    { maxLv: 999, title: "宇宙無敵 終極自律神", avatar: "🌌" }
   ];
 
   function getMaxExp(level) {
-    return level * 100;
+    return Math.floor(100 * Math.pow(1.15, level - 1));
   }
 
   function loadGame() {
     const saved = localStorage.getItem('goblin_save');
     if (saved) {
-      state = JSON.parse(saved);
+      state = Object.assign(state, JSON.parse(saved));
     }
     updateUI();
   }
@@ -357,7 +377,6 @@
   }
 
   function updateUI() {
-    // Level & Exp
     document.getElementById('goblinLv').innerText = state.lv;
     document.getElementById('currentExp').innerText = state.exp;
     const maxExp = getMaxExp(state.lv);
@@ -365,42 +384,56 @@
     
     let expPercent = (state.exp / maxExp) * 100;
     if (expPercent < 0) expPercent = 0;
-    document.getElementById('expBar').style.width = expPercent + '%';
+    document.getElementById('expBar').style.width = Math.min(expPercent, 100) + '%';
 
-    // Stats
     document.getElementById('statStr').innerText = state.str;
     document.getElementById('statInt').innerText = state.int;
     document.getElementById('statWil').innerText = state.wil;
     document.getElementById('statVit').innerText = state.vit;
 
-    // Rank / Avatar
     let currentEvo = evolutions.find(e => state.lv <= e.maxLv) || evolutions[evolutions.length - 1];
     document.getElementById('goblinRank').innerText = currentEvo.title;
     document.getElementById('goblinAvatar').innerText = currentEvo.avatar;
 
-    // No-PMO
+    // No-PMO multiplier calculation: 2^(days - 1), min 1x
+    const multiplier = state.nopmoDays > 0 ? Math.pow(2, state.nopmoDays - 1) : 1;
     document.getElementById('nopmoDays').innerText = state.nopmoDays;
+    document.getElementById('nopmoMultiplier').innerText = multiplier + 'x';
 
-    // Tasks
+    // Tasks Render
     const listEl = document.getElementById('taskList');
     listEl.innerHTML = '';
-    state.tasks.forEach(task => {
+
+    allTasks.forEach(task => {
+      const isUnlocked = state.lv >= task.unlockLv;
+      const isDone = state.completedTasksToday.includes(task.id);
+
       const li = document.createElement('li');
-      li.className = 'task-item';
-      li.innerHTML = `
-        <span style="${task.done ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">${task.text}</span>
-        <div class="task-actions">
-          ${!task.done 
-            ? `<button class="btn btn-green" onclick="completeTask(${task.id})">完成 (+EXP)</button>
-               <button class="btn btn-red" onclick="failTask(${task.id})">放棄 (-EXP)</button>`
-            : `<span style="color: var(--accent-green); font-size: 0.9rem;">已完成</span>`
-          }
-        </div>
-      `;
+      li.className = `task-item ${!isUnlocked ? 'locked' : ''}`;
+
+      if (isUnlocked) {
+        li.innerHTML = `
+          <span style="${isDone ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">
+            ${task.text} <small style="color: var(--accent-gold);">(+${task.exp} EXP)</small>
+          </span>
+          <div class="task-actions">
+            ${!isDone 
+              ? `<button class="btn btn-green" onclick="completeTask(${task.id}, ${task.exp})">搞掂</button>
+                 <button class="btn btn-red" onclick="failTask(${task.id}, ${task.exp})">唔做</button>`
+              : `<span style="color: var(--accent-green); font-size: 0.9rem;">✅ 已完成</span>`
+            }
+          </div>
+        `;
+      } else {
+        li.innerHTML = `
+          <span style="color: var(--text-muted);">🔒 任務未解鎖 (${task.text})</span>
+          <span style="font-size: 0.8rem; color: var(--accent-purple); font-weight: bold;">Lv.${task.unlockLv} 解鎖</span>
+        `;
+      }
+
       listEl.appendChild(li);
     });
 
-    // Boss
     document.getElementById('bossHp').innerText = state.bossHp;
     document.getElementById('bossMaxHp').innerText = state.bossMaxHp;
     document.getElementById('bossHpBar').style.width = (state.bossHp / state.bossMaxHp * 100) + '%';
@@ -409,7 +442,6 @@
   function addExp(amount) {
     state.exp += amount;
 
-    // Level up check
     while (state.exp >= getMaxExp(state.lv) && state.lv < 999) {
       state.exp -= getMaxExp(state.lv);
       state.lv++;
@@ -417,106 +449,32 @@
       state.int += 2;
       state.wil += 2;
       state.vit += 2;
-      alert(`🎉 恭喜！哥布林升級至 Lv.${state.lv}！屬性獲得全面提升！`);
+      alert(`🎉 掂檔！哥布林升呢去到 Lv.${state.lv}！全能力大躍進，解鎖更多自律任務！`);
     }
 
-    // Level down check (懲罰/降級)
     while (state.exp < 0 && state.lv > 1) {
       state.lv--;
       state.exp += getMaxExp(state.lv);
-      alert(`⚠️ 偷懶過度！哥布林退化降級至 Lv.${state.lv}！`);
-    }
-
-    if (state.exp < 0 && state.lv === 1) {
-      state.exp = 0;
-    }
-
-    saveGame();
-    updateUI();
-  }
-
-  function addTask() {
-    const input = document.getElementById('newTaskInput');
-    if (!input.value.trim()) return;
-    state.tasks.push({
-      id: Date.now(),
-      text: input.value.trim(),
-      done: false
-    });
-    input.value = '';
-    saveGame();
-    updateUI();
-  }
-
-  function completeTask(id) {
-    const task = state.tasks.find(t => t.id === id);
-    if (task && !task.done) {
-      task.done = true;
-      addExp(30);
-    }
-  }
-
-  function failTask(id) {
-    const task = state.tasks.find(t => t.id === id);
-    if (task) {
-      if (confirm('確定要放棄此任務嗎？這會倒扣 20 EXP！')) {
-        addExp(-20);
-        state.tasks = state.tasks.filter(t => t.id !== id);
-        saveGame();
-        updateUI();
-      }
+      alert(`⚠️ 攪邊科！偷懶過籠，哥布林降呢退化去到 Lv.${state.lv}！`); }  if (state.exp < 0 && state.lv === 1) { state.exp = 0; }  saveGame(); updateUI(); }  function completeTask(id, expReward) { if (!state.completedTasksToday.includes(id)) { state.completedTasksToday.push(id); addExp(expReward); } }  function failTask(id, expReward) { const penalty = Math.floor(expReward * 0.7); if (confirm(`真係要放棄唔做？指數級懲罰會扣 ${penalty} EXP 架喎！`)) {
+      addExp(-penalty);
     }
   }
 
   function checkInNoPMO() {
     const today = new Date().toDateString();
     if (state.lastNopmoCheck === today) {
-      alert('今日已經簽到過了，明天繼續保持！');
+      alert('今日已經簽過到啦，畀心機繼續keep住！');
       return;
     }
     state.nopmoDays++;
     state.lastNopmoCheck = today;
     state.wil += 3;
     state.vit += 3;
-    addExp(50);
-    alert(`🔥 戒色簽到成功！連續 ${state.nopmoDays} 天！意志+3，活力+3，EXP+50！`);
-  }
+    
+    // Exponential Reward based on multiplier: 1, 2, 4, 8, 16...
+    const multiplier = Math.pow(2, state.nopmoDays - 1);
+    const baseReward = Math.floor(getMaxExp(state.lv) * 0.2);
+    const rewardExp = baseReward * multiplier;
 
-  function relapseNoPMO() {
-    if (confirm('確定重置戒色天數嗎？這將會引發心魔反噬並倒扣 100 EXP！')) {
-      state.nopmoDays = 0;
-      addExp(-100);
-      alert('💔 心魔反噬！戒色天數歸零，經驗值大幅下降！');
-    }
-  }
-
-  function attackBoss() {
-    if (state.bossHp <= 0) {
-      alert(' Boss 已被擊敗！正在調用更強的心魔 Boss...');
-      state.bossMaxHp += 100;
-      state.bossHp = state.bossMaxHp;
-      saveGame();
-      updateUI();
-      return;
-    }
-
-    const damage = state.str + state.wil;
-    state.bossHp -= damage;
-    if (state.bossHp < 0) state.bossHp = 0;
-
-    if (state.bossHp === 0) {
-      alert(`⚔️ 成功擊敗 Boss！獲得大量獎勵 EXP +150！`);
-      addExp(150);
-    } else {
-      alert(`⚔️ 對 Boss 造成了 ${damage} 點自律傷害！`);
-    }
-
-    saveGame();
-    updateUI();
-  }
-
-  // Init
-  loadGame();
-</script>
-</body>
-</html>
+    addExp(rewardExp);
+    alert(`🔥 戒色簽到成功！連續 ${state.nopmoDays} 日（${
