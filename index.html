@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>自律升級哥布林 Self-Discipline Goblin</title>
+  <title>lv999哥布林進化 Self-Discipline Goblin</title>
   <style>
     :root {
       --bg-dark: #0f111a;
@@ -431,5 +431,146 @@
       } else {
         li.innerHTML = `
           <span style="color: var(--text-muted);">🔒 任務未解鎖 (${task.text})</span>
-          <span style="font-size: 0.8rem; color: var(--accent-purple
-      const isUnlocked
+          <span style="font-size: 0.8rem; color: var(--accent-purple); font-weight: bold;">Lv.${task.unlockLv} 解鎖</span>
+        `;
+      }
+
+      listEl.appendChild(li);
+    });
+
+    document.getElementById('bossHp').innerText = state.bossHp.toLocaleString();
+    document.getElementById('bossMaxHp').innerText = state.bossMaxHp.toLocaleString();
+    document.getElementById('bossHpBar').style.width = (state.bossHp / state.bossMaxHp * 100) + '%';
+  }
+
+  function addExp(amount) {
+    state.exp += amount;
+
+    // 防止升級卡死，設定安全迴圈限制
+    let loopGuard = 0;
+    while (state.exp >= getMaxExp(state.lv) && state.lv < 999 && loopGuard < 100) {
+      state.exp -= getMaxExp(state.lv);
+      state.lv++;
+      state.str += 2;
+      state.int += 2;
+      state.wil += 2;
+      state.vit += 2;
+      alert(`🎉 掂檔！哥布林升呢去到 Lv.${state.lv}！全能力大躍進，解鎖更多自律任務！`);
+      loopGuard++;
+    }
+
+    while (state.exp < 0 && state.lv > 1) {
+      state.lv--;
+      state.exp += getMaxExp(state.lv);
+      alert(`⚠️ 攪邊科！偷懶過籠，哥布林降呢退化去到 Lv.${state.lv}！`);
+    }
+
+    if (state.exp < 0 && state.lv === 1) {
+      state.exp = 0;
+    }
+
+    saveGame();
+    updateUI();
+  }
+
+  function completeTask(id, expReward) {
+    if (!state.completedTasksToday.includes(id)) {
+      state.completedTasksToday.push(id);
+      addExp(expReward);
+    }
+  }
+
+  function failTask(id, expReward) {
+    const penalty = Math.floor(expReward * 0.5);
+    if (confirm(`真係要放棄唔做？將會扣除 ${penalty.toLocaleString()} EXP 架喎！`)) {
+      addExp(-penalty);
+    }
+  }
+
+  function checkInNoPMO() {
+    const today = new Date().toDateString();
+    if (state.lastNopmoCheck === today) {
+      alert('今日已經簽過到啦，畀心機繼續keep住！');
+      return;
+    }
+    state.nopmoDays++;
+    state.consecutiveRelaxCount = 0;
+    state.lastNopmoCheck = today;
+    state.wil += 3;
+    state.vit += 3;
+    
+    const multiplier = Math.pow(2, state.nopmoDays - 1);
+    const baseReward = 10;
+    const rewardExp = baseReward * multiplier;
+
+    addExp(rewardExp);
+
+    if (state.nopmoDays === 10) {
+      alert(`🎬 恭喜達成戒色 10 日成就！解鎖限定通知：【SSIS-531的誘惑】！心靈得到極致昇華！`);
+    } else {
+      alert(`🔥 戒色簽到成功！連續 ${state.nopmoDays} 日（${multiplier}x 倍率）！意志+3，活力+3，獲得 EXP +${rewardExp.toLocaleString()}！`);
+    }
+  }
+
+  function medicalRelax() {
+    state.consecutiveRelaxCount++;
+
+    if (state.consecutiveRelaxCount >= 2) {
+      state.nopmoDays = 0;
+      state.consecutiveRelaxCount = 0;
+      const penalty = 50;
+      addExp(-penalty);
+      alert(`🚨 警告：連續兩日選擇放鬆！已被判定為自律失敗，戒色天數清零，並遭受心魔反噬扣除 ${penalty} EXP！`);
+    } else {
+      if (confirm('根據醫學與身心健康觀點，間中適度放鬆屬於正常生理調節。此選項暫不扣天數（注意：若連續 2 天放鬆將會判定為失敗），確定今日放鬆？')) {
+        const penalty = 5;
+        addExp(-penalty);
+        alert(`🌿 生理調節完成！今日已放鬆一次（連續放鬆計數: ${state.consecutiveRelaxCount}/2）。消耗少量 EXP -${penalty}`);
+      } else {
+        state.consecutiveRelaxCount--;
+      }
+    }
+    saveGame();
+    updateUI();
+  }
+
+  function relapseNoPMO() {
+    const penalty = 100;
+    if (confirm(`真係要重置天數？咁樣會引發心魔反噬，清空連續日數並扣除 ${penalty} EXP 架！`)) {
+      state.nopmoDays = 0;
+      state.consecutiveRelaxCount = 0;
+      addExp(-penalty);
+      alert('💔 心魔反噬！戒色天數歸零，經驗值大倒退！');
+    }
+  }
+
+  function attackBoss() {
+    if (state.bossHp <= 0) {
+      alert(' Boss 已經被打到趴低！即刻召喚更強既心魔出黎...');
+      state.bossMaxHp *= 2;
+      state.bossHp = state.bossMaxHp;
+      saveGame();
+      updateUI();
+      return;
+    }
+
+    const damage = (state.str + state.wil) * 10;
+    state.bossHp -= damage;
+    if (state.bossHp < 0) state.bossHp = 0;
+
+    if (state.bossHp === 0) {
+      const bossReward = 50;
+      alert(`⚔️ 成功片低 Boss！獲得豐富獎勵 EXP +${bossReward}！`);
+      addExp(bossReward);
+    } else {
+      alert(`⚔️ 狠狠咁打左 Boss ${damage.toLocaleString()} 點自律傷害！`);
+    }
+
+    saveGame();
+    updateUI();
+  }
+
+  loadGame();
+</script>
+</body>
+</html>
