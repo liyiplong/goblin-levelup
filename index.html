@@ -64,7 +64,8 @@
   <!-- 狀態面板 -->
   <div class="card goblin-status">
     <div class="goblin-avatar-box">
-      <img id="goblinImg" src="油頭KAM撚哥布林.png" alt="哥布林頭像" onerror="this.src='初段鐵血修羅哥布林.png'; this.onerror=function(){this.src='哥布林進化路線插圖 (3).jpg';}">
+      <!-- 加入自動防死圖 fallback：若找不到當前稱號圖片，自動嘗試讀取通用圖或預設圖 -->
+      <img id="goblinImg" src="油頭KAM撚哥布林.png" alt="哥布林頭像" onerror="this.src='新手gym撚哥布林.png'; this.onerror=function(){this.src='哥布林進化路線插圖 (3).jpg';}">
     </div>
     <div class="status-info">
       <div>
@@ -204,75 +205,60 @@
 
   // 計算路線類型：1:Gym撚 2:偽毒 3:偽文青 4:潛力股
   function getRouteType() {
-    if (state.str >= state.int && state.str >= state.wil) return 1; // Gym撚
-    if (state.int >= state.str && state.int >= state.wil) return 2; // 偽毒
-    if (state.wil >= state.str && state.wil >= state.int) return 3; // 偽文青
-    return 4; // 潛力股
+    if (state.str >= state.int && state.str >= state.wil) return 1;
+    if (state.int >= state.str && state.int >= state.wil) return 2;
+    if (state.wil >= state.str && state.wil >= state.int) return 3;
+    return 4;
   }
 
-  // 全 8 階段、包含所有分歧路線的精準稱號判斷
+  // 稱號判斷
   function getGoblinRank(level) {
-    // 階段一 (Lv.1 - 70)
     if (level <= 10) return '油頭KAM撚哥布林';
     if (level <= 30) return '油頭毒撚哥布林';
     if (level <= 70) return '毒撚哥布林';
 
     const route = getRouteType();
 
-    // 階段二：分歧進化期 (Lv.71 - 150)
     if (level <= 150) {
       if (route === 1) return '新手gym撚哥布林';
       if (route === 2) return '偽毒哥布林';
       if (route === 3) return '偽文青哥布林';
       return '潛力股哥布林';
     }
-
-    // 階段三：初段·覺醒修行者 (Lv.151 - 300)
     if (level <= 300) {
       if (route === 1) return '初段鐵血修羅哥布林';
       if (route === 2) return '初段精緻隱世哥布林';
       if (route === 3) return '初段浮生哲思哥布林';
       return '初段全能潛龍哥布林';
     }
-
-    // 階段四：中段·領域展開大師 (Lv.301 - 500)
     if (level <= 500) {
       if (route === 1) return '中段巨獸領域哥布林';
       if (route === 2) return '中段次元影匿大師';
       if (route === 3) return '中段文藝文心大師';
       return '中段全能六邊形戰士';
     }
-
-    // 階段五：高段·傳說破壁者 (Lv.501 - 750)
     if (level <= 750) {
       if (route === 1) return '高段肉身成聖破壁者';
       if (route === 2) return '高段無相幻影破壁者';
       if (route === 3) return '高段心靈知性破壁者';
       return '高段全知全能破壁者';
     }
-
-    // 階段六：終段·半神極致尊者 (Lv.751 - 997)
     if (level <= 997) {
       if (route === 1) return '終段力之本源半神尊者';
       if (route === 2) return '終段虛妄迷宮半神尊者';
       if (route === 3) return '終段真理彼岸半神尊者';
       return '終段萬物歸一半神尊者';
     }
-
-    // 階段七 (Lv.998)
     if (level === 998) return '人間自律極致';
-
-    // 階段八 (Lv.999)
     return '宇宙無敵 終極自律神';
   }
 
-  // 圖片判定：直接依據稱號文字載入對應 png 圖片
   function getGoblinImage(rank) {
     return rank + '.png';
   }
 
   function loadGame() {
-    const saved = localStorage.getItem('goblin_save_v15');
+    const saved = localStorage.getItem('goblin_save_v16');
     if (saved) {
       try { state = Object.assign(state, JSON.parse(saved)); } catch(e) {}
     }
@@ -281,7 +267,7 @@
   }
 
   function saveGame() {
-    localStorage.setItem('goblin_save_v15', JSON.stringify(state));
+    localStorage.setItem('goblin_save_v16', JSON.stringify(state));
     syncLeaderboard();
   }
 
