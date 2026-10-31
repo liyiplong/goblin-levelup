@@ -54,7 +54,7 @@
 
 <div class="container">
   <header>
-    <h1>👹 我要成為LV999哥布林</h1>
+    <h1>我要成為LV999哥布林</h1>
   </header>
 
   <!-- 狀態面板 -->
@@ -72,9 +72,9 @@
         EXP: <span id="currentExp">0</span> / <span id="maxExp">10</span>
       </div>
       <div class="stats-grid">
-        <div class="stat-item"><label>💪 體能 (STR)</label><val id="statStr">5</val></div>
-        <div class="stat-item"><label>🧠 智力 (INT)</label><val id="statInt">5</val></div>
-        <div class="stat-item"><label>🛡️ 意志 (WIL)</label><val id="statWil">5</val></div>
+        <div class="stat-item"><label>體能 (STR)</label><val id="statStr">5</val></div>
+        <div class="stat-item"><label>智力 (INT)</label><val id="statInt">5</val></div>
+        <div class="stat-item"><label>意志 (WIL)</label><val id="statWil">5</val></div>
         <div class="stat-item"><label>⚡ 活力 (VIT)</label><val id="statVit">5</val></div>
       </div>
     </div>
@@ -98,17 +98,17 @@
 
   <!-- 任務面板 (嚴格 3x3 黃金平衡) -->
   <div class="card">
-    <h3 style="margin-bottom: 5px; font-size: 1rem;">📋 每日自律任務 (3x3 黃金平衡)</h3>
+    <h3 style="margin-bottom: 5px; font-size: 1rem;">每日自律任務</h3>
     <div id="taskContainer">載入中...</div>
   </div>
 
   <!-- Boss 地下城面板 (七大罪 7 階進化) -->
   <div class="card boss-card">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h3 style="color: var(--accent-red); font-size: 1rem;">⚔️ 心魔 Boss 地下城 (七大罪 7 階)</h3>
+      <h3 style="color: var(--accent-red); font-size: 1rem;">心魔 Boss 地下城 (七大罪 7 階)</h3>
       <span class="boss-phase-badge" id="bossPhaseTag">Phase 1 / 7</span>
     </div>
-    <div class="boss-avatar" id="bossAvatar">🛋️</div>
+    <div class="boss-avatar" id="bossAvatar"></div>
     <h4 id="bossName" style="font-size: 1.1rem;">怠惰心魔 - 蛇王森</h4>
     <p style="font-size: 0.75rem; color: var(--accent-gold); margin-bottom: 6px;" id="bossDesc">拖延症大魔王，陷喺梳化入面令你提唔起勁。</p>
     <div class="hp-bar-container"><div class="hp-bar" id="bossHpBar"></div></div>
@@ -155,20 +155,20 @@
   ];
 
   const tasks = [
-    // 💪 身體 (3個)
-    { id: 1, category: "💪 身體", stat: "str", val: 1, text: "早起唔賴床 (08:00 前)", exp: 5 },
-    { id: 2, category: "💪 身體", stat: "vit", val: 1, text: "飲足 2000ml 水", exp: 10 },
-    { id: 3, category: "💪 身體", stat: "str", val: 2, text: "做運動 / 健身 20 分鐘", exp: 20 },
+    // 身體
+    { id: 1, category: "身體", stat: "str", val: 1, text: "早起唔賴床 (08:00 前)", exp: 5 },
+    { id: 2, category: "身體", stat: "vit", val: 1, text: "飲足 2000ml 水", exp: 10 },
+    { id: 3, category: "身體", stat: "str", val: 2, text: "做運動 / 健身 20 分鐘", exp: 20 },
     
-    // 🧠 精神 (3個)
-    { id: 4, category: "🧠 精神", stat: "int", val: 2, text: "睇書 / 學習新知識 15 分鐘", exp: 50 },
-    { id: 5, category: "🧠 精神", stat: "int", val: 1, text: "戒糖 / 今日唔飲手搖飲品", exp: 400 },
-    { id: 6, category: "🧠 精神", stat: "int", val: 2, text: "檢視與記錄今日花費開支", exp: 1500 },
+    // 精神
+    { id: 4, category: "精神", stat: "int", val: 2, text: "睇書 / 學習新知識 15 分鐘", exp: 50 },
+    { id: 5, category: "精神", stat: "int", val: 1, text: "戒糖 / 今日唔飲手搖飲品", exp: 400 },
+    { id: 6, category: "精神", stat: "int", val: 2, text: "檢視與記錄今日花費開支", exp: 1500 },
     
     // 🧘 心理 (3個)
-    { id: 7, category: "🧘 心理", stat: "wil", val: 1, text: "清理房間 / 整理書桌環境", exp: 100 },
-    { id: 8, category: "🧘 心理", stat: "wil", val: 2, text: "實施 15 分鐘冥想或拉筋放鬆", exp: 800 },
-    { id: 9, category: "🧘 心理", stat: "wil", val: 2, text: "今晚 11:30 前熄燈安穩入睡", exp: 3000 }
+    { id: 7, category: "心理", stat: "wil", val: 1, text: "清理房間 / 整理書桌環境", exp: 100 },
+    { id: 8, category: "心理", stat: "wil", val: 2, text: "實施 15 分鐘冥想或拉筋放鬆", exp: 800 },
+    { id: 9, category: "心理", stat: "wil", val: 2, text: "今晚 11:30 前熄燈安穩入睡", exp: 3000 }
   ];
 
   function loadGame() {
@@ -218,7 +218,7 @@
     const container = document.getElementById('taskContainer');
     container.innerHTML = '';
     
-    let categories = ["💪 身體", "🧠 精神", "🧘 心理"];
+    let categories = ["身體", "精神", "心理"];
     categories.forEach(cat => {
       let catTasks = tasks.filter(t => t.category === cat);
       if(catTasks.length === 0) return;
@@ -298,7 +298,7 @@
     const multiplier = Math.pow(2, state.nopmoDays - 1);
     const rewardExp = 10 * multiplier;
     addExp(rewardExp);
-    alert(`🔥 戒色簽到成功！連續 ${state.nopmoDays} 日（${multiplier}x 倍率）！獲得 EXP +${rewardExp.toLocaleString()}！`);
+    alert(`戒色簽到成功！連續 ${state.nopmoDays} 日（${multiplier}x 倍率）！獲得 EXP +${rewardExp.toLocaleString()}！`);
   }
 
   function medicalRelax() {
@@ -322,7 +322,7 @@
     if(confirm('真係要重置天數？將會引發心魔反噬，清空連續日數並扣除 100 EXP！')) {
       state.nopmoDays = 0; state.consecutiveRelaxCount = 0;
       addExp(-100);
-      alert('💔 心魔反噬！戒色天數歸零！');
+      alert('心魔反噬！戒色天數歸零！');
     }
   }
 
@@ -352,7 +352,7 @@
       if(state.vit === 0) {
         addExp(-50);
         state.vit = 5;
-        alert(`🚨 活力歸零陷入氣絕狀態！扣除 50 EXP！`);
+        alert(`活力歸零陷入氣絕狀態！扣除 50 EXP！`);
       }
     }
     saveGame(); updateUI();
