@@ -60,7 +60,7 @@
   <!-- 狀態面板 -->
   <div class="card goblin-status">
     <div class="goblin-avatar-box">
-      <img id="goblinImg" src="" alt="哥布林頭像">
+      <img id="goblinImg" src="哥布林進化路線插圖 (3).jpg" alt="哥布林頭像">
     </div>
     <div class="status-info">
       <div>
@@ -96,10 +96,29 @@
     </div>
   </div>
 
-  <!-- 任務面板 -->
+  <!-- 任務面板：直接內建初始 HTML 結構，絕不顯示載入中 -->
   <div class="card">
     <h3 style="margin-bottom: 5px; font-size: 1rem;">每日自律任務 (3x3 黃金平衡)</h3>
-    <div id="taskContainer">載入中...</div>
+    <div id="taskContainer">
+      <div class="category-title">身體</div>
+      <ul class="task-list">
+        <li class="task-item"><span>早起唔賴床 (08:00 前) (+5 EXP)</span><div><button class="btn btn-green" onclick="completeTask(1)">搞掂</button></div></li>
+        <li class="task-item"><span>飲足 2000ml 水 (+10 EXP)</span><div><button class="btn btn-green" onclick="completeTask(2)">搞掂</button></div></li>
+        <li class="task-item"><span>做運動 / 健身 20 分鐘 (+20 EXP)</span><div><button class="btn btn-green" onclick="completeTask(3)">搞掂</button></div></li>
+      </ul>
+      <div class="category-title">精神</div>
+      <ul class="task-list">
+        <li class="task-item"><span>睇書 / 學習新知識 15 分鐘 (+50 EXP)</span><div><button class="btn btn-green" onclick="completeTask(4)">搞掂</button></div></li>
+        <li class="task-item"><span>戒糖 / 今日唔飲手搖飲品 (+400 EXP)</span><div><button class="btn btn-green" onclick="completeTask(5)">搞掂</button></div></li>
+        <li class="task-item"><span>檢視與記錄今日花費開支 (+1500 EXP)</span><div><button class="btn btn-green" onclick="completeTask(6)">搞掂</button></div></li>
+      </ul>
+      <div class="category-title">心理</div>
+      <ul class="task-list">
+        <li class="task-item"><span>清理房間 / 整理書桌環境 (+100 EXP)</span><div><button class="btn btn-green" onclick="completeTask(7)">搞掂</button></div></li>
+        <li class="task-item"><span>實施 15 分鐘冥想或拉筋放鬆 (+800 EXP)</span><div><button class="btn btn-green" onclick="completeTask(8)">搞掂</button></div></li>
+        <li class="task-item"><span>今晚 11:30 前熄燈安穩入睡 (+3000 EXP)</span><div><button class="btn btn-green" onclick="completeTask(9)">搞掂</button></div></li>
+      </ul>
+    </div>
   </div>
 
   <!-- Boss 地下城面板 -->
@@ -155,7 +174,7 @@
   ];
 
   function loadGame() {
-    const saved = localStorage.getItem('goblin_save_v6');
+    const saved = localStorage.getItem('goblin_save_v7');
     if (saved) {
       try { state = Object.assign(state, JSON.parse(saved)); } catch(e) {}
     }
@@ -163,12 +182,12 @@
   }
 
   function saveGame() {
-    localStorage.setItem('goblin_save_v6', JSON.stringify(state));
+    localStorage.setItem('goblin_save_v7', JSON.stringify(state));
   }
 
   function getMaxExp(level) {
     if (level <= 70) return Math.floor(10 * level + 1.5 * Math.pow(level, 2));
-    return Math.floor(15 * Math.pow(level, 3) + 10 * Math.pow(level, 2) + 50 * level);
+    return Math.floor(15 * Math.pow(level, 3) + 10 * Math.pow(level, 2) + 50 * level);[cite: 1]
   }
 
   function getCurrentBoss() {
@@ -221,7 +240,7 @@
     document.getElementById('currentExp').innerText = state.exp.toLocaleString();
     const maxExp = getMaxExp(state.lv);
     document.getElementById('maxExp').innerText = maxExp.toLocaleString();
-    document.getElementById('expBar').style.width = Math.min((state.exp / maxExp) * 100, 100) + '%';
+    document.getElementById('expBar'].style.width = Math.min((state.exp / maxExp) * 100, 100) + '%';
 
     document.getElementById('statStr').innerText = state.str;
     document.getElementById('statInt').innerText = state.int;
@@ -342,10 +361,10 @@
     saveGame(); updateUI();
   }
 
-  window.onload = function() {
-    loadGame();
-  };
+  loadGame();
 </script>
+</body>
+</html>
 </body>
 </html>
 </html>
