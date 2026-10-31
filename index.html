@@ -196,7 +196,6 @@
     playerName: localStorage.getItem('goblin_player_name') || '無名哥布林'
   };
 
-  // ── 七大罪 7 階進化 Boss 數據庫 (共 49 個獨立心魔形態) ─────────
   const sinBosses = [
     {
       sin: "怠惰",
@@ -284,19 +283,13 @@
     }
   ];
 
-  // ── 黃金 3x3 平衡每日任務 (身體3個、精神3個、心理3個) ─────────
   const allTasks = [
-    // 💪 身體 (3個)
     { id: 1, category: "💪 身體", catKey: "physical", unlockLv: 1, text: "早起唔賴床 (08:00 前)", exp: 5 },
     { id: 2, category: "💪 身體", catKey: "physical", unlockLv: 1, text: "飲足 2000ml 水", exp: 10 },
     { id: 3, category: "💪 身體", catKey: "physical", unlockLv: 1, text: "做運動 / 健身 20 分鐘", exp: 20 },
-    
-    // 🧠 精神 (3個)
     { id: 4, category: "🧠 精神", catKey: "mental", unlockLv: 1, text: "睇書 / 學習新知識 15 分鐘", exp: 50 },
     { id: 5, category: "🧠 精神", catKey: "mental", unlockLv: 1, text: "戒糖 / 今日唔飲手搖飲品", exp: 400 },
     { id: 6, category: "🧠 精神", catKey: "mental", unlockLv: 1, text: "檢視與記錄今日花費開支", exp: 1500 },
-    
-    // 🧘 心理 (3個)
     { id: 7, category: "🧘 心理", catKey: "psychological", unlockLv: 1, text: "清理房間 / 整理書桌環境", exp: 100 },
     { id: 8, category: "🧘 心理", catKey: "psychological", unlockLv: 1, text: "實施 15 分鐘冥想或拉筋放鬆", exp: 800 },
     { id: 9, category: "🧘 心理", catKey: "psychological", unlockLv: 1, text: "今晚 11:30 前熄燈安穩入睡", exp: 3000 }
@@ -313,64 +306,63 @@
     return { key: 'otaku', label: '偽毒敏捷路線' };
   }
 
-  // ── 自動對映 1 到 50 張高清圖片 ────────────────────────
+  // ── 自動對映 .jpg 格式圖片 ────────────────────────
   function getEvoDetails(level) {
     const branch = getBranch();
     let imgIndex = 3;
     if (level <= 10) {
       imgIndex = 3; 
-      return { title: "油頭KAM撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).png`, route: "初始狀態" };
+      return { title: "油頭KAM撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "初始狀態" };
     }
     if (level <= 30) {
       imgIndex = 1; 
-      return { title: "油頭毒撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).png`, route: "初始狀態" };
+      return { title: "油頭毒撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "初始狀態" };
     }
     if (level <= 70) {
       imgIndex = 12; 
-      return { title: "毒撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).png`, route: "覺醒前夕" };
+      return { title: "毒撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "覺醒前夕" };
     }
     if (level <= 150) {
       const titles = { gym: "新手Gym撚哥布林", otaku: "偽毒哥布林", literary: "偽文青哥布林", all: "潛力股哥布林" };
       const imgMap = { gym: 2, otaku: 4, literary: 5, all: 6 };
       imgIndex = imgMap[branch.key] || 2;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).png`, route: branch.label };
+      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: branch.label };
     }
     if (level <= 300) {
       const titles = { gym: "初段·鐵血修羅哥布林", otaku: "初段·精緻隱世哥布林", literary: "初段·浮生哲思哥布林", all: "初段·全能潛龍哥布林" };
       const imgMap = { gym: 7, otaku: 8, literary: 9, all: 10 };
       imgIndex = imgMap[branch.key] || 7;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).png`, route: `初段 (${branch.label})` };
+      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `初段 (${branch.label})` };
     }
     if (level <= 500) {
       const titles = { gym: "中段·巨獸領域哥布林", otaku: "中段·次元影匿大師", literary: "中段·文藝文心大師", all: "中段·全能六邊形戰士" };
       imgIndex = 15;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).png`, route: `中段 (${branch.label})` };
+      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `中段 (${branch.label})` };
     }
     if (level <= 750) {
       const titles = { gym: "高段·肉身成聖破壁者", otaku: "高段·無相幻影破壁者", literary: "高段·心靈知性破壁者", all: "高段·全知全能破壁者" };
       imgIndex = 25;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).png`, route: `高段 (${branch.label})` };
+      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `高段 (${branch.label})` };
     }
     if (level <= 997) {
       const titles = { gym: "終段·力之本源半神尊者", otaku: "終段·虛妄迷宮半神尊者", literary: "終段·真理彼岸半神尊者", all: "終段·萬物歸一半神尊者" };
       imgIndex = 35;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).png`, route: `終段 (${branch.label})` };
+      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `終段 (${branch.label})` };
     }
     if (level === 998) {
       imgIndex = 45;
-      return { title: "完全體：人間自律極致", img: `哥布林進化路線插圖 (${imgIndex}).png`, route: "萬法歸一" };
+      return { title: "完全體：人間自律極致", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "萬法歸一" };
     }
     imgIndex = 50;
-    return { title: "神：宇宙無敵 終極自律神", img: `哥布林進化路線插圖 (${imgIndex}).png`, route: "至高無上" };
+    return { title: "神：宇宙無敵 終極自律神", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "至高無上" };
   }
 
-  // ── 經驗值公式 (混合多項式模型) ────────────────────────
   function getMaxExp(level) {
     if (level >= 999) return 1e15;
     if (level <= 70) {
       return Math.floor(10 * level + 1.5 * Math.pow(level, 2));
     } else {
-      return Math.floor(15 * Math.pow(level, 3) + 10 * Math.pow(level, 2) + 50 * level); //[cite: 1]
+      return Math.floor(15 * Math.pow(level, 3) + 10 * Math.pow(level, 2) + 50 * level);[span_0](start_span)[span_0](end_span)
     }
   }
 
@@ -624,7 +616,7 @@
     if (state.consecutiveRelaxCount >= 2) {
       state.nopmoDays = 0; state.consecutiveRelaxCount = 0;
       addExp(-50);
-      alert(`🚨 警告：連續兩日選擇放鬆！已被判定為自律失敗，戒色天數清零，並扣除 50 EXP！`);
+      alert(`🚨 警告 : 連續兩日選擇放鬆！已被判定為自律失敗，戒色天數清零，並扣除 50 EXP！`);
     } else {
       if (confirm('適度放鬆屬於正常生理調節。確定今日放鬆？（連續 2 天將判定失敗）')) {
         addExp(-5);
@@ -644,7 +636,6 @@
     }
   }
 
-  // ── Supabase 排行榜設定 (選填) ──────────────────────────
   const SUPABASE_URL = 'YOUR_SUPABASE_URL';
   const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
   let supabase = null;
