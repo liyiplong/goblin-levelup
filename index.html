@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我要成為LV999哥布林</title>
-  <!-- Supabase JS Client (免費線上排行榜) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --bg-dark: #0f111a;
@@ -14,66 +12,36 @@
       --accent-red: #e74c3c;
       --accent-gold: #f1c40f;
       --accent-purple: #9b59b6;
-      --accent-blue: #3498db;
       --text-light: #ecf0f1;
       --text-muted: #8e9aaf;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: var(--bg-dark); color: var(--text-light); padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
-    .container { width: 100%; max-width: 850px; display: flex; flex-direction: column; gap: 20px; }
-    header { text-align: center; padding: 15px; background: var(--card-bg); border-radius: 12px; border: 1px solid #2d3248; }
-    header h1 { color: var(--accent-green); font-size: 2rem; letter-spacing: 1px; }
-    .card { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid #2d3248; }
-
-    /* 哥布林狀態與頭像 */
-    .goblin-status { display: flex; align-items: center; gap: 20px; }
-    .goblin-avatar-box { width: 140px; height: 140px; border-radius: 12px; border: 3px solid var(--accent-green); overflow: hidden; background: #000; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2); }
+    body { background-color: var(--bg-dark); color: var(--text-light); padding: 15px; display: flex; justify-content: center; min-height: 100vh; }
+    .container { width: 100%; max-width: 850px; display: flex; flex-direction: column; gap: 15px; }
+    header { text-align: center; padding: 12px; background: var(--card-bg); border-radius: 12px; border: 1px solid #2d3248; }
+    header h1 { color: var(--accent-green); font-size: 1.8rem; }
+    .card { background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid #2d3248; }
+    .goblin-status { display: flex; align-items: center; gap: 15px; }
+    .goblin-avatar-box { width: 110px; height: 110px; border-radius: 12px; border: 3px solid var(--accent-green); overflow: hidden; background: #000; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .goblin-avatar-box img { width: 100%; height: 100%; object-fit: cover; }
     .status-info { flex: 1; }
-    .level-badge { display: inline-block; background: var(--accent-purple); padding: 4px 12px; border-radius: 12px; font-weight: bold; font-size: 0.95rem; margin-bottom: 5px; color: #fff; }
-    .route-badge { display: inline-block; background: #25293c; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 2px 8px; border-radius: 8px; font-size: 0.75rem; margin-left: 5px; }
-    .exp-bar-container { background: #0f111a; height: 16px; border-radius: 8px; overflow: hidden; margin: 8px 0; border: 1px solid #3a3f58; }
+    .level-badge { display: inline-block; background: var(--accent-purple); padding: 3px 10px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; color: #fff; margin-bottom: 4px; }
+    .exp-bar-container { background: #0f111a; height: 14px; border-radius: 7px; overflow: hidden; margin: 6px 0; border: 1px solid #3a3f58; }
     .exp-bar { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71); width: 0%; transition: width 0.3s ease; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; text-align: center; }
-    .stat-item { background: #25293c; padding: 8px; border-radius: 8px; }
-    .stat-item label { font-size: 0.8rem; color: var(--text-muted); display: block; }
-    .stat-item val { font-size: 1.1rem; font-weight: bold; color: var(--accent-gold); }
-
-    /* 技能與按鈕 */
-    .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
-    .skill-btn { background: #25293c; border: 1px solid #3a3f58; color: #fff; padding: 10px; border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s; }
-    .skill-btn:hover { background: #323750; border-color: var(--accent-gold); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; text-align: center; }
+    .stat-item { background: #25293c; padding: 6px; border-radius: 6px; }
+    .stat-item label { font-size: 0.75rem; color: var(--text-muted); display: block; }
+    .stat-item val { font-size: 1rem; font-weight: bold; color: var(--accent-gold); }
+    .category-title { font-size: 1rem; color: var(--accent-gold); margin: 12px 0 8px 0; border-bottom: 1px solid #2d3248; padding-bottom: 4px; }
+    .task-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .task-item { display: flex; align-items: center; justify-content: space-between; background: #25293c; padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; }
+    .btn { padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
+    .btn-green { background: var(--accent-green); color: #fff; }
+    .btn-red { background: var(--accent-red); color: #fff; }
+    .btn-blue { background: var(--accent-blue, #3498db); color: #fff; }
     .nopmo-card { border: 1px solid var(--accent-purple); background: linear-gradient(135deg, #1a1d2d, #251b34); }
     .nopmo-flex { display: flex; justify-content: space-between; align-items: center; }
-    .streak-count { font-size: 2.5rem; font-weight: bold; color: var(--accent-gold); }
-    .btn { padding: 10px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-    .btn-green { background: var(--accent-green); color: #fff; } .btn-green:hover { background: #27ae60; }
-    .btn-red { background: var(--accent-red); color: #fff; } .btn-red:hover { background: #c0392b; }
-    .btn-blue { background: var(--accent-blue); color: #fff; } .btn-blue:hover { background: #2980b9; }
-
-    /* 任務與 7 階 Boss 專區 */
-    .category-title { font-size: 1.1rem; color: var(--accent-gold); margin: 15px 0 10px 0; border-bottom: 1px solid #2d3248; padding-bottom: 5px; }
-    .task-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .task-item { display: flex; align-items: center; justify-content: space-between; background: #25293c; padding: 12px 15px; border-radius: 8px; }
-    .task-item.locked { opacity: 0.5; background: #181b28; border: 1px dashed #3a3f58; }
-    .task-actions { display: flex; gap: 8px; }
-    .boss-card { text-align: center; border: 1px solid var(--accent-red); background: linear-gradient(180deg, #1a1d2d, #2d151c); }
-    .boss-avatar { font-size: 4rem; margin: 10px 0; }
-    .boss-phase-badge { background: var(--accent-red); color: #fff; padding: 3px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; }
-    .hp-bar-container { background: #0f111a; height: 14px; border-radius: 7px; overflow: hidden; margin: 10px 0; border: 1px solid #3a3f58; }
-    .hp-bar { height: 100%; background: var(--accent-red); width: 100%; transition: width 0.3s ease; }
-    .leaderboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .leaderboard-table { width: 100%; border-collapse: collapse; }
-    .leaderboard-table th, .leaderboard-table td { padding: 8px 12px; border-bottom: 1px solid #2d3248; text-align: left; font-size: 0.9rem; }
-    .leaderboard-table th { color: var(--accent-gold); }
-
-    @media (max-width: 600px) {
-      .goblin-status { flex-direction: column; text-align: center; }
-      .stats-grid, .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .nopmo-flex { flex-direction: column; gap: 15px; align-items: flex-start; }
-      .goblin-avatar-box { width: 160px; height: 160px; }
-    }
+    .streak-count { font-size: 2rem; font-weight: bold; color: var(--accent-gold); }
   </style>
 </head>
 <body>
@@ -81,324 +49,81 @@
 <div class="container">
   <header>
     <h1>👹 我要成為LV999哥布林</h1>
-    <p style="color: var(--text-muted); font-size: 0.9rem;">由油頭KAM撚一路苦修至全宇宙無敵自律神嘅史詩級修煉 RPG！</p>
   </header>
 
-  <!-- 哥布林狀態面板 -->
+  <!-- 狀態面板 -->
   <div class="card goblin-status">
     <div class="goblin-avatar-box">
-      <img id="goblinImg" src="" alt="哥布林進化型態">
+      <img id="goblinImg" src="" alt="哥布林頭像">
     </div>
     <div class="status-info">
       <div>
         <span class="level-badge" id="goblinRank">油頭KAM撚哥布林</span>
-        <span class="route-badge" id="goblinRoute">初始狀態</span>
-        <strong style="font-size: 1.2rem; margin-left: 8px;">Lv. <span id="goblinLv">1</span> / 999</strong>
+        <strong style="font-size: 1.1rem; margin-left: 6px;">Lv. <span id="goblinLv">1</span></strong>
       </div>
       <div class="exp-bar-container"><div class="exp-bar" id="expBar"></div></div>
-      <div style="font-size: 0.85rem; color: var(--text-muted);">
+      <div style="font-size: 0.8rem; color: var(--text-muted);">
         EXP: <span id="currentExp">0</span> / <span id="maxExp">10</span>
       </div>
-
       <div class="stats-grid">
-        <div class="stat-item"><label>💪 體能 (STR)</label><val id="statStr">5</val></div>
-        <div class="stat-item"><label>🧠 智力 (INT)</label><val id="statInt">5</val></div>
-        <div class="stat-item"><label>🛡️ 意志 (WIL)</label><val id="statWil">5</val></div>
-        <div class="stat-item"><label>⚡ 活力 (VIT)</label><val id="statVit">5</val></div>
+        <div class="stat-item"><label>💪 體能</label><val id="statStr">5</val></div>
+        <div class="stat-item"><label>🧠 智力</label><val id="statInt">5</val></div>
+        <div class="stat-item"><label>🛡️ 意志</label><val id="statWil">5</val></div>
+        <div class="stat-item"><label>⚡ 活力</label><val id="statVit">5</val></div>
       </div>
     </div>
   </div>
 
-  <!-- 主動技能面板 -->
-  <div class="card">
-    <h3 style="color: var(--accent-gold); margin-bottom: 5px;">⚡ 主動自律技能</h3>
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">消耗屬性點數發動超強技能討伐心魔！</p>
-    <div class="skills-grid">
-      <button class="skill-btn" onclick="useSkill('punch')">
-        <strong>👊 自律鐵拳</strong><br><small style="color:var(--text-muted);">消耗 10 VIT | 造成重磅體能傷害</small>
-      </button>
-      <button class="skill-btn" onclick="useSkill('shield')">
-        <strong>🧘 心靈防壁</strong><br><small style="color:var(--text-muted);">消耗 15 WIL | 淨化焦慮並額外獲取 EXP</small>
-      </button>
-      <button class="skill-btn" onclick="useSkill('focus')">
-        <strong>☕ 賢者模式</strong><br><small style="color:var(--text-muted);">消耗 20 INT | 絕對專注重創 Boss</small>
-      </button>
-      <button class="skill-btn" onclick="useSkill('burst')">
-        <strong>🌟 終極極致爆發</strong><br><small style="color:var(--text-muted);">消耗全屬性 10 點 | 全屏打擊</small>
-      </button>
-    </div>
-  </div>
-
-  <!-- 戒色修煉面板 -->
+  <!-- 戒色簽到面板 -->
   <div class="card nopmo-card">
-    <h3 style="color: var(--accent-purple); margin-bottom: 5px;">🔥 戒色修煉 (等比加倍獎勵)</h3>
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">連續放鬆 2 日當失敗；連勝解鎖限定心靈昇華！</p>
+    <h3 style="color: var(--accent-purple); font-size: 1rem; margin-bottom: 5px;">🔥 戒色修煉</h3>
     <div class="nopmo-flex">
       <div>
-        <div class="streak-count"><span id="nopmoDays">0</span> <small style="font-size: 1rem; color: #fff;">日</small></div>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">當前加倍倍率：<span id="nopmoMultiplier" style="color: var(--accent-gold); font-weight: bold;">1x</span></p>
+        <div class="streak-count"><span id="nopmoDays">0</span> <small style="font-size: 0.9rem; color: #fff;">日</small></div>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button class="btn btn-green" onclick="checkInNoPMO()">每日簽到 (領取加倍 EXP)</button>
-        <button class="btn btn-blue" onclick="medicalRelax()">醫學健康放鬆 (溫和調節)</button>
-        <button class="btn btn-red" onclick="relapseNoPMO()">破戒重置 (心魔反噬)</button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-green" onclick="checkInNoPMO()">每日簽到</button>
+        <button class="btn btn-red" onclick="resetNoPMO()">重置</button>
       </div>
     </div>
   </div>
 
-  <!-- 任務面板 (黃金 3x3 平衡任務) -->
+  <!-- 任務面板 -->
   <div class="card">
-    <h3 style="margin-bottom: 5px;">📋 每日自律任務</h3>
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">劃分為：💪 身體 3個、🧠 精神 3個、🧘 心理 3個（共9個黃金平衡任務）！</p>
-    <div id="taskContainer"></div>
-  </div>
-
-  <!-- Boss 地下城面板 (七大罪 7 階進化) -->
-  <div class="card boss-card">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h3 style="color: var(--accent-red);">⚔️ 心魔 Boss 地下城 (七大罪 7 階進化)</h3>
-      <span class="boss-phase-badge" id="bossPhaseTag">Phase 1 / 7</span>
-    </div>
-    <div class="boss-avatar" id="bossAvatar">🛋️</div>
-    <h4 id="bossName">怠惰心魔 - 蛇王森</h4>
-    <p style="font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 8px;" id="bossDesc">拖延症大魔王，陷喺梳化入面令你提唔起勁。</p>
-    <div class="hp-bar-container"><div class="hp-bar" id="bossHpBar"></div></div>
-    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
-      Boss HP: <span id="bossHp">200</span> / <span id="bossMaxHp">200</span>
-    </p>
-    <button class="btn btn-red" onclick="attackBoss()">發動普通自律攻擊！</button>
-  </div>
-
-  <!-- 排行榜面板 -->
-  <div class="card">
-    <div class="leaderboard-header">
-      <h3 style="color: var(--accent-gold);">🏆 自律名人堂 (Supabase 線上排行榜)</h3>
-      <button class="btn btn-blue" style="padding: 4px 10px; font-size: 0.8rem;" onclick="changePlayerName()">修改江湖大名</button>
-    </div>
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">玩家名稱：<strong id="playerNameDisplay" style="color:#fff;">無名哥布林</strong></p>
-    <table class="leaderboard-table">
-      <thead>
-        <tr><th>排名</th><th>大名</th><th>等級與稱號</th><th>戒色天數</th><th>擊殺Boss</th></tr>
-      </thead>
-      <tbody id="leaderboardBody"></tbody>
-    </table>
+    <h3 style="margin-bottom: 5px; font-size: 1rem;">📋 每日自律任務</h3>
+    <div id="taskContainer">載入中...</div>
   </div>
 </div>
 
 <script>
   let state = {
     lv: 1, exp: 0, str: 5, int: 5, wil: 5, vit: 5,
-    nopmoDays: 0, consecutiveRelaxCount: 0, lastNopmoCheck: null,
-    bossSinIndex: 0, bossPhase: 1, bossHp: 200, bossMaxHp: 200,
-    completedTasksToday: [],
-    taskStats: { physical: 0, mental: 0, psychological: 0 },
-    bossKills: 0,
-    playerName: localStorage.getItem('goblin_player_name') || '無名哥布林'
+    nopmoDays: 0, lastCheckIn: null, completedTasks: []
   };
 
-  const sinBosses = [
-    {
-      sin: "怠惰",
-      phases: [
-        { name: "蛇王森 (Phase 1 啟蒙)", avatar: "🛋️", desc: "拖延症大魔王，陷喺梳化入面令你提唔起勁。", hp: 200, atk: 2 },
-        { name: "床褥沼澤 (Phase 2 初段)", avatar: "🛏️", desc: "將你深深吸入床褥，意志開始瓦解！", hp: 800, atk: 5 },
-        { name: "拖延黑洞 (Phase 3 中段)", avatar: "🕳️", desc: "將所有自律計劃拖延至明日的黑洞！", hp: 2500, atk: 12 },
-        { name: "時間蒸發者 (Phase 4 高段)", avatar: "⏳", desc: "偷走你所有光陰與青春的無形大魔王！", hp: 8000, atk: 25 },
-        { name: "廢人氣場 (Phase 5 破壁者)", avatar: "🌫️", desc: "散發讓全周圍失去所有動力與熱情的氣場！", hp: 25000, atk: 60 },
-        { name: "萬劫石化尊 (Phase 6 半神)", avatar: "🗿", desc: "讓身體與心靈完全石化沉淪的半神心魔！", hp: 80000, atk: 150 },
-        { name: "終極虛無怠惰神 (Phase 7 神魔)", avatar: "🌌", desc: "怠惰之極致！將所有自律轉化為虛無的終極神魔！", hp: 250000, atk: 400 }
-      ]
-    },
-    {
-      sin: "色慾",
-      phases: [
-        { name: "夜魅 Succubus (Phase 1 啟蒙)", avatar: "💋", desc: "深夜誘惑之源，動搖你嘅戒色防線！", hp: 500, atk: 4 },
-        { name: "演算法幻影 (Phase 2 初段)", avatar: "📱", desc: "演算法精準推送極致誘惑影片！", hp: 2000, atk: 10 },
-        { name: "深夜腦魔 (Phase 3 中段)", avatar: "👁️", desc: "入侵大腦多巴胺系統，讓你思想完全失控！", hp: 6000, atk: 25 },
-        { name: "意志崩解者 (Phase 4 高段)", avatar: "🔞", desc: "瞬間摧毀所有苦修意志的衝動魔王！", hp: 20000, atk: 60 },
-        { name: "多巴胺蜘蛛 (Phase 5 破壁者)", avatar: "🕸️", desc: "用慾望之絲將大腦神經網絡完全編織綁架！", hp: 65000, atk: 140 },
-        { name: "精神榨乾者 (Phase 6 半神)", avatar: "🥀", desc: "抽乾所有精力與生命熱情的神魔！", hp: 200000, atk: 350 },
-        { name: "終極色慾心魔皇 (Phase 7 神魔)", avatar: "🖤", desc: "七大罪色慾之頂峰！終極意志毀滅者！", hp: 600000, atk: 800 }
-      ]
-    },
-    {
-      sin: "貪食",
-      phases: [
-        { name: "糖癮獸 (Phase 1 啟蒙)", avatar: "🧋", desc: "手搖飲料與炸雞怪獸，誘惑你放棄飲食管理！", hp: 1200, atk: 8 },
-        { name: "宵夜巨魔 (Phase 2 初段)", avatar: "🍔", desc: "深夜宵夜強烈渴望的化身！", hp: 4500, atk: 18 },
-        { name: "代謝摧毀者 (Phase 3 中段)", avatar: "🌋", desc: "吞噬你所有運動成果的巨獸！", hp: 15000, atk: 40 },
-        { name: "暴食饕餮 (Phase 4 高段)", avatar: "🍗", desc: "永不滿足的進食本能狂魔！", hp: 50000, atk: 90 },
-        { name: "胰島素狂魔 (Phase 5 破壁者)", avatar: "🩸", desc: "操控血糖與情緒起伏的恐怖暴君！", hp: 160000, atk: 200 },
-        { name: "吞噬萬物獸 (Phase 6 半神)", avatar: "🐋", desc: "將健康與身型一併吞噬進黑暗腹中的半神！", hp: 500000, atk: 450 },
-        { name: "終極黑洞胃囊神 (Phase 7 神魔)", avatar: "🪐", desc: "貪食之終極神魔！永恆無底洞！", hp: 1500000, atk: 1000 }
-      ]
-    },
-    {
-      sin: "貪婪",
-      phases: [
-        { name: "課長哥布林 (Phase 1 啟蒙)", avatar: "🎰", desc: "盲目消費與金錢焦慮的化身！", hp: 3000, atk: 15 },
-        { name: "負債陰影 (Phase 2 初段)", avatar: "📈", desc: "控制你瘋狂刷信用卡的心魔！", hp: 10000, atk: 35 },
-        { name: "虛榮魔尊 (Phase 3 中段)", avatar: "💎", desc: "用金錢焦慮綁架人生的魔王！", hp: 35000, atk: 80 },
-        { name: "盲目消費狂 (Phase 4 高段)", avatar: "💳", desc: "購買物質以為能填補內心空虛的狂魔！", hp: 120000, atk: 180 },
-        { name: "金錢陷阱王 (Phase 5 破壁者)", avatar: "🏰", desc: "建造物質牢籠將靈魂困住的君王！", hp: 400000, atk: 400 },
-        { name: "物質奴隸尊 (Phase 6 半神)", avatar: "⚖️", desc: "將人生價值與金錢全數掛鉤的半神！", hp: 1200000, atk: 900 },
-        { name: "終極吞金貪婪神 (Phase 7 神魔)", avatar: "🪙", desc: "貪婪之頂點神魔！吞噬所有心靈富足！", hp: 4000000, atk: 2000 }
-      ]
-    },
-    {
-      sin: "憤怒",
-      phases: [
-        { name: "Emo 狂魔 (Phase 1 啟蒙)", avatar: "🔥", desc: "暴躁與情緒失控化身，吞噬理智。", hp: 8000, atk: 30 },
-        { name: "理智焚燒者 (Phase 2 初段)", avatar: "🌋", desc: "無名火起，摧毀你所有自律與冷靜！", hp: 25000, atk: 70 },
-        { name: "情緒海嘯 (Phase 3 中段)", avatar: "☄️", desc: "掀起心靈風暴的情緒毀滅者！", hp: 80000, atk: 150 },
-        { name: "暴躁雷霆巨靈 (Phase 4 高段)", avatar: "⚡", desc: "因為衝動而做出後悔莫及決定的巨靈！", hp: 250000, atk: 350 },
-        { name: "失控殺戮者 (Phase 5 破壁者)", avatar: "🗡️", desc: "切斷與所有人的羈絆與理智的殺戮者！", hp: 800000, atk: 800 },
-        { name: "狂暴修羅尊 (Phase 6 半神)", avatar: "🩸", desc: "將憤怒化為永恆業火的半神修羅！", hp: 2500000, atk: 1800 },
-        { name: "終極毀滅憤怒神 (Phase 7 神魔)", avatar: "💥", desc: "憤怒之終極型態！毀天滅地的心魔神！", hp: 8000000, atk: 4000 }
-      ]
-    },
-    {
-      sin: "妒忌",
-      phases: [
-        { name: "Monpo 哥 (Phase 1 啟蒙)", avatar: "🔍", desc: "酸民心態化身，專門打擊你嘅社交自信。", hp: 20000, atk: 60 },
-        { name: "自卑巨獸 (Phase 2 初段)", avatar: "🧪", desc: "讓你不斷與他人比較並陷入自卑！", hp: 60000, atk: 140 },
-        { name: "自我懷疑神 (Phase 3 中段)", avatar: "🪞", desc: "映射出你內心所有不安的魔神！", hp: 180000, atk: 300 },
-        { name: "酸民毒蛇王 (Phase 4 高段)", avatar: "🐍", desc: "向他人進步噴射自卑與嫉妒毒液的魔王！", hp: 600000, atk: 700 },
-        { name: "陰暗凝視者 (Phase 5 破壁者)", avatar: "👁️", desc: "在暗處監視他人成功並折磨自己的心魔！", hp: 2000000, atk: 1500 },
-        { name: "虛榮比較尊 (Phase 6 半神)", avatar: "🕸️", desc: "將自我價值綑綁於社交評價的半神！", hp: 6000000, atk: 3500 },
-        { name: "終極萬物妒忌神 (Phase 7 神魔)", avatar: "🔮", desc: "妒忌之終極型態！永遠無法肯定自己的神魔！", hp: 20000000, atk: 8000 }
-      ]
-    },
-    {
-      sin: "傲慢",
-      phases: [
-        { name: "三日熱霸主 (Phase 1 啟蒙)", avatar: "👑", desc: "稍微自律就鬆懈打回原形嘅心魔。", hp: 50000, atk: 120 },
-        { name: "鬆懈帝王 (Phase 2 初段)", avatar: "🏰", desc: "讓你以為已經成神而完全放棄自律！", hp: 150000, atk: 280 },
-        { name: "盲目自大體 (Phase 3 中段)", avatar: "🌌", desc: "拒絕承認自己缺點與不足的魔王！", hp: 500000, atk: 600 },
-        { name: "固步自封尊 (Phase 4 高段)", avatar: "🪨", desc: "沉溺於過去小小成就而停止成長的巨靈！", hp: 1500000, atk: 1300 },
-        { name: "虛假光芒神 (Phase 5 破壁者)", avatar: "🌟", desc: "用空洞傲慢偽裝內心脆弱的魔神！", hp: 5000000, atk: 3000 },
-        { name: "至尊自滿魔王 (Phase 6 半神)", avatar: "⚜️", desc: "傲慢自大至極致、打回原形退化的半神！", hp: 15000000, atk: 7000 },
-        { name: "終極七大罪傲慢神尊 (Phase 7 神魔)", avatar: "👑", desc: "七大罪萬魔之首！自律修煉終極考驗者！", hp: 50000000, atk: 15000 }
-      ]
-    }
+  const tasks = [
+    { id: 1, category: "💪 身體", text: "早起唔賴床 (08:00 前)", exp: 5 },
+    { id: 2, category: "💪 身體", text: "飲足 2000ml 水", exp: 10 },
+    { id: 3, category: "💪 身體", text: "做運動 / 健身 20 分鐘", exp: 20 },
+    { id: 4, category: "🧠 精神", text: "睇書 / 學習新知識 15 分鐘", exp: 50 },
+    { id: 5, category: "🧠 精神", text: "戒糖 / 今日唔飲手搖飲品", exp: 400 },
+    { id: 6, category: "🧘 心理", text: "清理房間 / 整理書桌環境", exp: 100 }
   ];
-
-  const allTasks = [
-    { id: 1, category: "💪 身體", catKey: "physical", unlockLv: 1, text: "早起唔賴床 (08:00 前)", exp: 5 },
-    { id: 2, category: "💪 身體", catKey: "physical", unlockLv: 1, text: "飲足 2000ml 水", exp: 10 },
-    { id: 3, category: "💪 身體", catKey: "physical", unlockLv: 1, text: "做運動 / 健身 20 分鐘", exp: 20 },
-    { id: 4, category: "🧠 精神", catKey: "mental", unlockLv: 1, text: "睇書 / 學習新知識 15 分鐘", exp: 50 },
-    { id: 5, category: "🧠 精神", catKey: "mental", unlockLv: 1, text: "戒糖 / 今日唔飲手搖飲品", exp: 400 },
-    { id: 6, category: "🧠 精神", catKey: "mental", unlockLv: 1, text: "檢視與記錄今日花費開支", exp: 1500 },
-    { id: 7, category: "🧘 心理", catKey: "psychological", unlockLv: 1, text: "清理房間 / 整理書桌環境", exp: 100 },
-    { id: 8, category: "🧘 心理", catKey: "psychological", unlockLv: 1, text: "實施 15 分鐘冥想或拉筋放鬆", exp: 800 },
-    { id: 9, category: "🧘 心理", catKey: "psychological", unlockLv: 1, text: "今晚 11:30 前熄燈安穩入睡", exp: 3000 }
-  ];
-
-  function getBranch() {
-    const s = state.taskStats || { physical: 0, mental: 0, psychological: 0 };
-    const p = s.physical || 0, m = s.mental || 0, ps = s.psychological || 0;
-    const max = Math.max(p, m, ps), min = Math.min(p, m, ps);
-    if (max === 0) return { key: 'all', label: '潛力股路線' };
-    if (max - min <= 2 && (p > 0 || m > 0 || ps > 0)) return { key: 'all', label: '全能潛力股路線' };
-    if (max === p) return { key: 'gym', label: 'Gym撚力量路線' };
-    if (max === m) return { key: 'literary', label: '偽文青智力路線' };
-    return { key: 'otaku', label: '偽毒敏捷路線' };
-  }
-
-  // ── 自動對映 .jpg 格式圖片 ────────────────────────
-  function getEvoDetails(level) {
-    const branch = getBranch();
-    let imgIndex = 3;
-    if (level <= 10) {
-      imgIndex = 3; 
-      return { title: "油頭KAM撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "初始狀態" };
-    }
-    if (level <= 30) {
-      imgIndex = 1; 
-      return { title: "油頭毒撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "初始狀態" };
-    }
-    if (level <= 70) {
-      imgIndex = 12; 
-      return { title: "毒撚哥布林", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "覺醒前夕" };
-    }
-    if (level <= 150) {
-      const titles = { gym: "新手Gym撚哥布林", otaku: "偽毒哥布林", literary: "偽文青哥布林", all: "潛力股哥布林" };
-      const imgMap = { gym: 2, otaku: 4, literary: 5, all: 6 };
-      imgIndex = imgMap[branch.key] || 2;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: branch.label };
-    }
-    if (level <= 300) {
-      const titles = { gym: "初段·鐵血修羅哥布林", otaku: "初段·精緻隱世哥布林", literary: "初段·浮生哲思哥布林", all: "初段·全能潛龍哥布林" };
-      const imgMap = { gym: 7, otaku: 8, literary: 9, all: 10 };
-      imgIndex = imgMap[branch.key] || 7;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `初段 (${branch.label})` };
-    }
-    if (level <= 500) {
-      const titles = { gym: "中段·巨獸領域哥布林", otaku: "中段·次元影匿大師", literary: "中段·文藝文心大師", all: "中段·全能六邊形戰士" };
-      imgIndex = 15;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `中段 (${branch.label})` };
-    }
-    if (level <= 750) {
-      const titles = { gym: "高段·肉身成聖破壁者", otaku: "高段·無相幻影破壁者", literary: "高段·心靈知性破壁者", all: "高段·全知全能破壁者" };
-      imgIndex = 25;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `高段 (${branch.label})` };
-    }
-    if (level <= 997) {
-      const titles = { gym: "終段·力之本源半神尊者", otaku: "終段·虛妄迷宮半神尊者", literary: "終段·真理彼岸半神尊者", all: "終段·萬物歸一半神尊者" };
-      imgIndex = 35;
-      return { title: titles[branch.key], img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: `終段 (${branch.label})` };
-    }
-    if (level === 998) {
-      imgIndex = 45;
-      return { title: "完全體：人間自律極致", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "萬法歸一" };
-    }
-    imgIndex = 50;
-    return { title: "神：宇宙無敵 終極自律神", img: `哥布林進化路線插圖 (${imgIndex}).jpg`, route: "至高無上" };
-  }
-
-  function getMaxExp(level) {
-    if (level >= 999) return 1e15;
-    if (level <= 70) {
-      return Math.floor(10 * level + 1.5 * Math.pow(level, 2));
-    } else {
-      return Math.floor(15 * Math.pow(level, 3) + 10 * Math.pow(level, 2) + 50 * level);[span_0](start_span)[span_0](end_span)
-    }
-  }
-
-  function getCurrentBoss() {
-    let sin = sinBosses[state.bossSinIndex % sinBosses.length];
-    let phaseIndex = (state.bossPhase - 1) % 7;
-    return sin.phases[phaseIndex];
-  }
 
   function loadGame() {
-    const saved = localStorage.getItem('goblin_save');
+    const saved = localStorage.getItem('goblin_save_v2');
     if (saved) {
-      try {
-        state = Object.assign(state, JSON.parse(saved));
-        if (!state.taskStats) state.taskStats = { physical: 0, mental: 0, psychological: 0 };
-        if (state.bossSinIndex === undefined) state.bossSinIndex = 0;
-        if (state.bossPhase === undefined) state.bossPhase = 1;
-        if (state.bossKills === undefined) state.bossKills = 0;
-      } catch(e) { console.log("Load error"); }
+      try { state = Object.assign(state, JSON.parse(saved)); } catch(e) {}
     }
     updateUI();
   }
 
   function saveGame() {
-    localStorage.setItem('goblin_save', JSON.stringify(state));
-    syncLeaderboard();
+    localStorage.setItem('goblin_save_v2', JSON.stringify(state));
   }
 
-  function changePlayerName() {
-    const newName = prompt("請輸入你喺自律江湖嘅大名：", state.playerName);
-    if (newName && newName.trim() !== '') {
-      state.playerName = newName.trim();
-      localStorage.setItem('goblin_player_name', state.playerName);
-      saveGame();
-      updateUI();
-    }
+  function getMaxExp(level) {
+    return Math.floor(10 * level + 1.5 * Math.pow(level, 2));
   }
 
   function updateUI() {
@@ -406,280 +131,98 @@
     document.getElementById('currentExp').innerText = state.exp.toLocaleString();
     const maxExp = getMaxExp(state.lv);
     document.getElementById('maxExp').innerText = maxExp.toLocaleString();
-    
-    let expPercent = (state.exp / maxExp) * 100;
-    document.getElementById('expBar').style.width = Math.min(Math.max(expPercent, 0), 100) + '%';
+    document.getElementById('expBar').style.width = Math.min((state.exp / maxExp) * 100, 100) + '%';
 
     document.getElementById('statStr').innerText = state.str;
     document.getElementById('statInt').innerText = state.int;
     document.getElementById('statWil').innerText = state.wil;
     document.getElementById('statVit').innerText = state.vit;
 
-    let currentEvo = getEvoDetails(state.lv);
-    document.getElementById('goblinRank').innerText = currentEvo.title;
-    document.getElementById('goblinImg').src = currentEvo.img;
-    document.getElementById('goblinRoute').innerText = currentEvo.route;
-    document.getElementById('playerNameDisplay').innerText = state.playerName;
+    // 頭像防呆對映
+    let imgIdx = state.lv <= 10 ? 3 : (state.lv <= 30 ? 1 : 12);
+    document.getElementById('goblinImg.src', '')
+    document.getElementById('goblinImg').src = `哥布林進化路線插圖 (${imgIdx}).jpg`;
 
-    const multiplier = state.nopmoDays > 0 ? Math.pow(2, state.nopmoDays - 1) : 1;
     document.getElementById('nopmoDays').innerText = state.nopmoDays;
-    document.getElementById('nopmoMultiplier').innerText = multiplier + 'x';
 
-    const containerEl = document.getElementById('taskContainer');
-    containerEl.innerHTML = '';
-    const categories = ["💪 身體", "🧠 精神", "🧘 心理"];
-
+    // 渲染任務欄
+    const container = document.getElementById('taskContainer');
+    container.innerHTML = '';
+    
+    let categories = ["💪 身體", "🧠 精神", "🧘 心理"];
     categories.forEach(cat => {
-      const catTasks = allTasks.filter(t => t.category === cat);
-      if (catTasks.length === 0) return;
+      let catTasks = tasks.filter(t => t.category === cat);
+      if(catTasks.length === 0) return;
 
-      const titleEl = document.createElement('div');
-      titleEl.className = 'category-title';
-      titleEl.innerText = cat;
-      containerEl.appendChild(titleEl);
+      let titleDiv = document.createElement('div');
+      titleDiv.className = 'category-title';
+      titleDiv.innerText = cat;
+      container.appendChild(titleDiv);
 
-      const ulEl = document.createElement('ul');
-      ulEl.className = 'task-list';
+      let ul = document.createElement('ul');
+      ul.className = 'task-list';
 
       catTasks.forEach(task => {
-        const isUnlocked = state.lv >= task.unlockLv;
-        const isDone = state.completedTasksToday.includes(task.id);
-        const li = document.createElement('li');
-        li.className = `task-item ${!isUnlocked ? 'locked' : ''}`;
-
-        if (isUnlocked) {
-          li.innerHTML = `
-            <span style="${isDone ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">
-              ${task.text} <small style="color: var(--accent-gold);">(+${task.exp.toLocaleString()} EXP)</small>
-            </span>
-            <div class="task-actions">
-              ${!isDone 
-                ? `<button class="btn btn-green" onclick="completeTask(${task.id}, '${task.catKey}', ${task.exp})">搞掂</button>
-                   <button class="btn btn-red" onclick="failTask(${task.id}, ${task.exp})">唔做</button>`
-                : `<span style="color: var(--accent-green); font-size: 0.9rem;">✅ 已完成</span>`
-              }
-            </div>
-          `;
-        } else {
-          li.innerHTML = `
-            <span style="color: var(--text-muted);">🔒 ${task.text}</span>
-            <span style="font-size: 0.8rem; color: var(--accent-purple); font-weight: bold;">Lv.${task.unlockLv} 解鎖</span>
-          `;
-        }
-        ulEl.appendChild(li);
+        let isDone = state.completedTasks.includes(task.id);
+        let li = document.createElement('li');
+        li.className = 'task-item';
+        li.innerHTML = `
+          <span style="${isDone ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">
+            ${task.text} <small style="color: var(--accent-gold);">(+${task.exp} EXP)</small>
+          </span>
+          <div>
+            ${!isDone 
+              ? `<button class="btn btn-green" onclick="completeTask(${task.id}, ${task.exp})">搞掂</button>`
+              : `<span style="color: var(--accent-green);">✅ 已完成</span>`
+            }
+          </div>
+        `;
+        ul.appendChild(li);
       });
-      containerEl.appendChild(ulEl);
+      container.appendChild(ul);
     });
-
-    const curBoss = getCurrentBoss();
-    document.getElementById('bossAvatar').innerText = curBoss.avatar;
-    document.getElementById('bossName').innerText = curBoss.name;
-    document.getElementById('bossDesc').innerText = curBoss.desc;
-    document.getElementById('bossPhaseTag').innerText = `Phase ${state.bossPhase} / 7`;
-    document.getElementById('bossHp').innerText = state.bossHp.toLocaleString();
-    document.getElementById('bossMaxHp').innerText = state.bossMaxHp.toLocaleString();
-    document.getElementById('bossHpBar').style.width = Math.max(0, (state.bossHp / state.bossMaxHp * 100)) + '%';
   }
 
   function addExp(amount) {
     state.exp += amount;
-    let loopGuard = 0;
-    while (state.exp >= getMaxExp(state.lv) && state.lv < 999 && loopGuard < 100) {
+    while(state.exp >= getMaxExp(state.lv)) {
       state.exp -= getMaxExp(state.lv);
       state.lv++;
-      state.str += 2; state.int += 2; state.wil += 2; state.vit += 2;
-      let newEvo = getEvoDetails(state.lv);
-      alert(`🎉 掂檔！哥布林突破升呢去到 Lv.${state.lv}！\n當前境界：【${newEvo.title}】 (${newEvo.route})！`);
-      loopGuard++;
-    }
-    while (state.exp < 0 && state.lv > 1) {
-      state.lv--;
-      state.exp += getMaxExp(state.lv);
-      alert(`⚠️ 攪邊科！偷懶過籠，哥布林降呢退化去到 Lv.${state.lv}！`);
-    }
-    if (state.exp < 0 && state.lv === 1) state.exp = 0;
-    saveGame();
-    updateUI();
-  }
-
-  function completeTask(id, catKey, expReward) {
-    if (!state.completedTasksToday.includes(id)) {
-      state.completedTasksToday.push(id);
-      if (catKey && state.taskStats[catKey] !== undefined) state.taskStats[catKey]++;
-      addExp(expReward);
-    }
-  }
-
-  function failTask(id, expReward) {
-    const penalty = Math.floor(expReward * 0.5);
-    if (confirm(`真係要放棄唔做？將會扣除 ${penalty.toLocaleString()} EXP 架喎！`)) addExp(-penalty);
-  }
-
-  function useSkill(type) {
-    if (type === 'punch') {
-      if (state.vit < 10) return alert('活力 (VIT) 不足 10 點！');
-      state.vit -= 10;
-      let dmg = state.str * 20;
-      dealBossDamage(dmg, '👊 發動自律鐵拳！');
-    } else if (type === 'shield') {
-      if (state.wil < 15) return alert('意志 (WIL) 不足 15 點！');
-      state.wil -= 15;
-      addExp(500);
-      alert('🧘 發動心靈防壁！心靈得到淨化，額外獲得 500 EXP！');
-    } else if (type === 'focus') {
-      if (state.int < 20) return alert('智力 (INT) 不足 20 點！');
-      state.int -= 20;
-      let dmg = state.int * 30;
-      dealBossDamage(dmg, '☕ 進入賢者模式！發動絕對專注之擊！');
-    } else if (type === 'burst') {
-      if (state.str < 10 || state.int < 10 || state.wil < 10 || state.vit < 10) {
-        return alert('全屬性需要最少各 10 點先可以發動爆發！');
-      }
-      state.str -= 10; state.int -= 10; state.wil -= 10; state.vit -= 10;
-      let dmg = (state.str + state.int + state.wil + state.vit) * 50;
-      dealBossDamage(dmg, '🌟 發動終極極致爆發！全屏自律光芒襲來！');
+      alert(`🎉 哥布林突破升呢去到 Lv.${state.lv}！`);
     }
     saveGame();
     updateUI();
   }
 
-  function attackBoss() {
-    let damage = (state.str + state.wil) * 10;
-    dealBossDamage(damage, '⚔️ 發動普通自律攻擊！');
-  }
-
-  function dealBossDamage(damage, msgPrefix) {
-    const curBoss = getCurrentBoss();
-    state.bossHp -= damage;
-
-    if (state.bossHp <= 0) {
-      state.bossHp = 0;
-      state.bossKills++;
-      
-      let expReward = 1000 * state.bossPhase * (state.bossSinIndex + 1);
-      
-      if (state.bossPhase < 7) {
-        alert(`${msgPrefix}\n💥 成功擊破【${curBoss.name}】！\n⚠️ 心魔引發極致反噬，進入 Phase ${state.bossPhase + 1} 狂暴進化型態！\n獲得 ${expReward.toLocaleString()} EXP！`);
-        state.bossPhase++;
-      } else {
-        alert(`${msgPrefix}\n🎉 史詩級捷報！徹底淨化七大罪【${sinBosses[state.bossSinIndex % sinBosses.length].sin}心魔】Phase 7 終極神魔形態！\n獲得龐大獎勵 ${expReward.toLocaleString()} EXP！`);
-        state.bossSinIndex++;
-        state.bossPhase = 1;
-      }
-      
-      addExp(expReward);
-      const nextBoss = getCurrentBoss();
-      state.bossMaxHp = nextBoss.hp;
-      state.bossHp = state.bossMaxHp;
-
-    } else {
-      let counterDmg = curBoss.atk;
-      
-      if (Math.random() > 0.5) {
-        state.vit = Math.max(0, state.vit - counterDmg);
-        alert(`${msgPrefix}\n造成了 ${damage.toLocaleString()} 點自律傷害！\n⚡ 【${curBoss.name}】發動激烈反擊！你的活力 (VIT) 減少了 ${counterDmg} 點！`);
-      } else {
-        state.wil = Math.max(0, state.wil - counterDmg);
-        alert(`${msgPrefix}\n造成了 ${damage.toLocaleString()} 點自律傷害！\n🛡️ 【${curBoss.name}】發動心靈誘惑！你的意志 (WIL) 減少了 ${counterDmg} 點！`);
-      }
-
-      if (state.vit === 0 || state.wil === 0) {
-        addExp(-100);
-        state.vit = 5; state.wil = 5;
-        alert(`🚨 屬性歸零陷入【心魔氣絕狀態】！被扣除 100 EXP 並強制回復基本體能與意志！`);
-      }
+  function completeTask(id, exp) {
+    if(!state.completedTasks.includes(id)) {
+      state.completedTasks.push(id);
+      addExp(exp);
     }
-
-    saveGame();
-    updateUI();
   }
 
   function checkInNoPMO() {
-    const today = new Date().toDateString();
-    if (state.lastNopmoCheck === today) return alert('今日已經簽過到啦，畀心機繼續keep住！');
+    let today = new Date().toDateString();
+    if(state.lastCheckIn === today) {
+      return alert('今日已經簽過到啦！');
+    }
     state.nopmoDays++;
-    state.consecutiveRelaxCount = 0;
-    state.lastNopmoCheck = today;
-    state.wil += 3; state.vit += 3;
-    const multiplier = Math.pow(2, state.nopmoDays - 1);
-    const rewardExp = 10 * multiplier;
-    addExp(rewardExp);
-    if (state.nopmoDays === 10) {
-      alert(`🎬 恭喜達成戒色 10 日成就！解鎖限定心靈成就：【SSIS-531的誘惑】！意志力極致昇華！`);
-    } else {
-      alert(`🔥 戒色簽到成功！連續 ${state.nopmoDays} 日（${multiplier}x 倍率）！獲得 EXP +${rewardExp.toLocaleString()}！`);
+    state.lastCheckIn = today;
+    addExp(20);
+    alert(`🔥 簽到成功！連續戒色 ${state.nopmoDays} 日！`);
+    saveGame();
+    updateUI();
+  }
+
+  function resetNoPMO() {
+    if(confirm('確定要重置戒色天數？')) {
+      state.nopmoDays = 0;
+      saveGame();
+      updateUI();
     }
-  }
-
-  function medicalRelax() {
-    state.consecutiveRelaxCount++;
-    if (state.consecutiveRelaxCount >= 2) {
-      state.nopmoDays = 0; state.consecutiveRelaxCount = 0;
-      addExp(-50);
-      alert(`🚨 警告 : 連續兩日選擇放鬆！已被判定為自律失敗，戒色天數清零，並扣除 50 EXP！`);
-    } else {
-      if (confirm('適度放鬆屬於正常生理調節。確定今日放鬆？（連續 2 天將判定失敗）')) {
-        addExp(-5);
-        alert(`🌿 生理調節完成！今日已放鬆一次。消耗少量 EXP -5`);
-      } else {
-        state.consecutiveRelaxCount--;
-      }
-    }
-    saveGame(); updateUI();
-  }
-
-  function relapseNoPMO() {
-    if (confirm(`真係要重置天數？咁樣會引發心魔反噬，清空連續日數並扣除 100 EXP 架！`)) {
-      state.nopmoDays = 0; state.consecutiveRelaxCount = 0;
-      addExp(-100);
-      alert('💔 心魔反噬！戒色天數歸零，經驗值大倒退！');
-    }
-  }
-
-  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-  const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-  let supabase = null;
-
-  if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && window.supabase) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  }
-
-  async function syncLeaderboard() {
-    let evo = getEvoDetails(state.lv);
-    let lbData = [{ name: state.playerName, lv: state.lv, title: evo.title, streak: state.nopmoDays, kills: state.bossKills }];
-
-    if (supabase) {
-      try {
-        await supabase.from('leaderboard').upsert({
-          player_name: state.playerName,
-          level: state.lv,
-          title: evo.title,
-          streak: state.nopmoDays,
-          kills: state.bossKills
-        });
-
-        let { data, error } = await supabase.from('leaderboard').select('*').order('level', { ascending: false }).limit(10);
-        if (!error && data) {
-          renderLeaderboard(data.map(d => ({ name: d.player_name, lv: d.level, title: d.title, streak: d.streak, kills: d.kills })));
-          return;
-        }
-      } catch(e) { console.log('Supabase sync error', e); }
-    }
-    renderLeaderboard(lbData);
-  }
-
-  function renderLeaderboard(list) {
-    const lbBody = document.getElementById('leaderboardBody');
-    lbBody.innerHTML = '';
-    list.forEach((row, index) => {
-      let tr = document.createElement('tr');
-      tr.innerHTML = `<td>#${index + 1}</td><td><strong>${row.name}</strong></td><td>Lv.${row.lv} (${row.title})</td><td>${row.streak} 天</td><td>${row.kills} 隻</td>`;
-      lbBody.appendChild(tr);
-    });
   }
 
   loadGame();
-  syncLeaderboard();
 </script>
 </body>
 </html>
